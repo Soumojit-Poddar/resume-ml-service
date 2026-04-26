@@ -63,3 +63,30 @@ class SkillExtractor:
         found_skills = sorted(list(set(found_skills)))
         
         return found_skills
+    
+    def extract_experience_years(self, text):
+        """
+        Extract years of experience from resume text
+        
+        Args:
+            text (str): Resume text
+            
+        Returns:
+            int: Years of experience (0 if not found)
+        """
+        if not text:
+            return 0
+        
+        # Pattern to match "X years of experience" or "X+ years"
+        patterns = [
+            r'(\d+)\+?\s*years?\s*(?:of)?\s*experience',
+            r'experience\s*:\s*(\d+)\+?\s*years?',
+            r'(\d+)\+?\s*years?\s*in\s*(?:software|development|engineering)',
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, text.lower())
+            if match:
+                return int(match.group(1))
+        
+        return 0
